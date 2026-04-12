@@ -6,13 +6,21 @@ Partially Observable Task and motion planning with uncertainty and risk awarenes
 
 ## Install
 
-Install the tampura package
+### ホスト側に uv/python がある場合
+
 ```
-conda create -n tampura_env python=3.11
-conda activate tampura_env
-python -m pip install -e .
-conda install -c conda-forge pygraphviz
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -U uv
+uv lock --upgrade
+uv pip install --frozen -e .
 ```
+
+### Docker を使う場合
+
+ホスト側には Docker のみあれば十分です。`uv` や `python` は不要です。
+
+詳細は [docker/README.md](docker/README.md) を参照してください。
 
 # Example Notebook
 

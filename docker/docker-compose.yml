@@ -1,0 +1,34 @@
+services:
+  tampura:
+    image: tampura-${USER_NAME:-local}
+    container_name: tampura-dev
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      args:
+        USER_NAME: ${USER_NAME:-tampura}
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    working_dir: /workspace/tampura
+    environment:
+      # 初回起動時に依存を自動同期（TAMPURA_AUTO_SYNC=1 がデフォルト）
+      # 無効化したい場合: docker compose up -e TAMPURA_AUTO_SYNC=0
+      - PYTHONUNBUFFERED=1
+      - JUPYTER_PORT=${JUPYTER_PORT:-8888}
+      - PYTHONPATH=/workspace/tampura:/workspace/tampura_environments
+      # UV環境変数
+      - VIRTUAL_ENV=/opt/venv
+      - UV_PYTHON=/opt/venv/bin/python
+      - UV_NO_PROJECT=1
+      # 以下のように書くと、ホストの環境変数を読み込む
+      # - PATH="$VIRTUAL_ENV/bin:$PATH"
+    volumes:
+      - ../..:/workspace
+    ports:
+      - "${JUPYTER_PORT:-8888}:${JUPYTER_PORT:-8888}"
+    shm_size: "2gb"
+    init: true
+    tty: true
+    stdin_open: true
+    command: >
+      bash -lc "exec /opt/venv/bin/python -m jupyter notebook --no-browser --ip=0.0.0.0 --port ${JUPYTER_PORT:-8888} --ServerApp.token=demo"
