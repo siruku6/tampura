@@ -7,6 +7,7 @@ name = "tampura"
 version = "0.1.0"
 dependencies = [
     "docformatter>=1.7.5",
+    "imageio",
     "jupyter==1.0.0",
     "pylint>=2.14.5",
     "pytest-pylint>=0.18.0",
@@ -23,6 +24,8 @@ dependencies = [
     "gymnasium",
     "stable_baselines3",
     "tensorboard",
+    "tqdm",
+    "pygraphviz",
 ]
 
 [tool.setuptools]
