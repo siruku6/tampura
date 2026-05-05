@@ -128,10 +128,19 @@ if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
     )
 elseif(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     message(STATUS "Building Cudd with 64-bit.")
+    if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|amd64|AMD64)$")
+        set(CUDD_C_FLAGS "-m64 -g -O3 -w")
+        set(CUDD_CXX_CONFIG_FLAGS "-m64 -std=c++0x -g ${CUDD_CXX_FLAGS}")
+        set(CUDD_LINK_FLAGS "-m64")
+    else()
+        set(CUDD_C_FLAGS "-g -O3 -w")
+        set(CUDD_CXX_CONFIG_FLAGS "-std=c++0x -g ${CUDD_CXX_FLAGS}")
+        set(CUDD_LINK_FLAGS "")
+    endif()
     ExternalProject_add(
         libcudd
         SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ext/cudd-3.0.0/
-        CONFIGURE_COMMAND autoreconf ${CMAKE_CURRENT_SOURCE_DIR}/ext/cudd-3.0.0/ && ${CMAKE_CURRENT_SOURCE_DIR}/ext/cudd-3.0.0/configure --enable-obj --enable-silent-rules "CFLAGS=-m64 -g -O3 -w" "CXXFLAGS=-m64 -std=c++0x -g ${CUDD_CXX_FLAGS}" "LDFLAGS=-m64"
+        CONFIGURE_COMMAND autoreconf ${CMAKE_CURRENT_SOURCE_DIR}/ext/cudd-3.0.0/ && ${CMAKE_CURRENT_SOURCE_DIR}/ext/cudd-3.0.0/configure --enable-obj --enable-silent-rules "CFLAGS=${CUDD_C_FLAGS}" "CXXFLAGS=${CUDD_CXX_CONFIG_FLAGS}" "LDFLAGS=${CUDD_LINK_FLAGS}"
         BUILD_COMMAND make
         INSTALL_COMMAND ""
         BUILD_IN_SOURCE 0
