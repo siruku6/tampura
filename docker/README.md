@@ -102,11 +102,14 @@ docker compose up -e TAMPURA_AUTO_SYNC=0
 
 ```bash
 docker compose exec tampura python -c "import tampura; print('ok')"
+
+# OK と表示されれば成功
+ok
 ```
 
 ```bash
-# @ workspace/tampura/
-cd ..
+# @ workspace/tampura/docker/
+cd ../..
 
 # @ workspace/
 uv run python tampura_environments/run_planner.py --config=./tampura_environments/env_configs/find_dice.yml --vis=1 --global-seed=0 --vis-graph=1
