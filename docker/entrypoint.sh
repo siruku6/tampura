@@ -15,7 +15,7 @@ if [[ "${TAMPURA_AUTO_SYNC:-1}" == "1" ]]; then
 		echo "[entrypoint] Syncing dependencies (uv sync --frozen)..."
 		uv sync --frozen
 		echo "[entrypoint] Installing project (uv pip install -e .)..."
-		uv pip install -e .
+		uv pip install -e . --verbose
 		echo "${CURRENT_HASH}" > "${STAMP_FILE}"
 		echo "[entrypoint] Dependencies synced successfully."
 	else
