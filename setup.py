@@ -51,9 +51,18 @@ if _editable_wheel is not None:
 setup(
     name=PKG_NAME,
     version="0.1.0",
-    packages=find_packages(include=[f"{PKG_NAME}*"]),
+    packages=find_packages(
+        include=[f"{PKG_NAME}*"],
+        exclude=[f"{PKG_NAME}.third_party.symk.builds*"],
+    ),
     cmdclass=cmdclass,
     include_package_data=True,
-    package_data={f"{PKG_NAME}.third_party.symk": ["builds/release/**/*"]},
+    package_data={
+        f"{PKG_NAME}.third_party.symk": [
+            "builds/release/search",
+            "builds/release/h2-preprocessor",
+            "builds/release/bin/*",
+        ]
+    },
     zip_safe=False,  # the wheel contains platform-specific binaries
 )
